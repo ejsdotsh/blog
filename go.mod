@@ -1,7 +1,9 @@
-module github.com/ejsdotsh/ejs.wtf
+module github.com/ejsdotsh/blog
 
-go 1.20
+go 1.24
 
-require (
-	github.com/ejsdotsh/yacht v0.0.0-20230514181400-9b85e3b2a8de // indirect
-)
+replace github.com/ejsdotsh/yacht-hugo-theme => ../../yacht/repo
+
+// require github.com/ejsdotsh/yacht-hugo-theme v0.0.10 // indirect
+
+require github.com/ejsdotsh/yacht-hugo-theme v0.0.10 // indirect
