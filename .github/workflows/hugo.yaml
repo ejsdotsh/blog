@@ -1,0 +1,44 @@
+name: Build and deploy
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  contents: read
+  # pages: write
+  # id-token: write
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+defaults:
+  run:
+    shell: bash
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GO_VERSION: 1.25.1
+      HUGO_VERSION: 0.151.0
+      TZ: America/Los_Angeles
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ HUGO_VERSION }}
+          # extended: true
+      - name: Build the site
+        run: |
+          hugo mod get -u ./...
+          hugo \
+            --gc \
+            --minify
+      - name: Upload
+        run: |
+          cd public || exit 1
+          rsync -hvcr --progress --delete --no-o --no-g -e "ssh -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no" . ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOSTNAMEIP }}:${{ secrets.CONTENT_DESTINATION_FOLDER }}
