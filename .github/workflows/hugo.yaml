@@ -36,11 +36,21 @@ jobs:
           hugo \
             --gc \
             --minify
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.9.0
+      # - name: Setup SSH key
+      #   uses: webfactory/ssh-agent@v0.9.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.SSH_KEY }}
+      # - name: Upload
+      #   run: |
+      #     cd public || exit 1
+      #     rsync -hvcr --progress --delete -e "ssh -o StrictHostKeyChecking=no" . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOSTNAME }}:${{ secrets.CONTENT_DESTINATION }}
+
+      - name: Rsync deployment
+        uses: burnett01/rsync-deployments@7.1.0
         with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
-      - name: Upload
-        run: |
-          cd public || exit 1
-          rsync -hvcr --progress --delete -e "ssh -o StrictHostKeyChecking=no" . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOSTNAME }}:${{ secrets.CONTENT_DESTINATION }}
+          switches: -avzr --delete
+          path: public/
+          remote_path: ${{ secrets.CONTENT_DESTINATION }}
+          remote_host: ${{ secrets.SSH_HOSTNAME }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_KEY }}
