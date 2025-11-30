@@ -28,7 +28,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: ${{ HUGO_VERSION }}
+          hugo-version: ${{ env.HUGO_VERSION }}
           # extended: true
       - name: Build the site
         run: |
@@ -39,4 +39,4 @@ jobs:
       - name: Upload
         run: |
           cd public || exit 1
-          rsync -hvcr --progress --delete --no-o --no-g -e "ssh -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no" . ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOSTNAMEIP }}:${{ secrets.CONTENT_DESTINATION_FOLDER }}
+          rsync -hvcr --progress --delete --no-o --no-g -e "ssh -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no" . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOSTNAME }}:${{ secrets.CONTENT_DESTINATION }}
