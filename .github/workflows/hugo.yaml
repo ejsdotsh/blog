@@ -39,4 +39,4 @@ jobs:
       - name: Upload
         run: |
           cd public || exit 1
-          rsync -hvcr --progress --delete --no-o --no-g -e "ssh -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no" . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOSTNAME }}:${{ secrets.CONTENT_DESTINATION }}
+          rsync -hvcr --progress --delete -e "ssh -i ${{ secrets.SSH_KEY }}" . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOSTNAME }}:${{ secrets.CONTENT_DESTINATION }}
