@@ -5,6 +5,8 @@
 !/.gitignore
 !/.github/**/*.yaml
 
+!/.npmrc
+
 !LICENSE
 !VERSION
 !Makefile
