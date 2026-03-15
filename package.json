@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "hugo-extended": "^0.157.0",
     "sass": "^1.98.0"
   }
 }
