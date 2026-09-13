@@ -13,19 +13,24 @@
 !config/**/*.yaml
 !content/**
 !static/**
+!assets/**
 
 # hugo modules
 !go.sum
 !go.mod
+
+# npm for tailwind cli
+!package.json
+!package-lock.json
 
 # but allow the above files in (sub)directories
 !*/
 
 # explicitly ignore experimentation and in-progress development
 exp/**
+.exp/**
 node_modules/**
 public/**
-package-lock.json
 .hugo_build.lock
 resources/
 hugo_stats.json
